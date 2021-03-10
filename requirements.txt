@@ -1,0 +1,6 @@
+Flask
+Flask-MySQLdb
+Flask-Session
+requests
+Flask-WTF
+set FLASK_APP=application.py

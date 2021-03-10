@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block main %}
+<section class="intro">
+    <h1><img src="static/iconsearch.png">¿Cuánto <span style="color: rgb(42, 196, 75);">cuesta</span>
+        <span id="phrase1" class="txt-type" data-wait="1000" data-words='["una bolsa de cemento?", "un ladrillo?", "el fierro de construcción?", "la piedra chancada?"]'></span>
+    </h1>
+    <h1><img src="static/iconsearch.png">¿Cómo se <span style="color: rgb(53, 94, 229);">compra</span>
+        <span id="phrase2" class="txt-type" data-wait="1000" data-words='["yeso?", "fierro?", "madera?", "perfiles de acero?"]'></span>
+    </h1>
+    <h1><img src="static/iconsearch.png">¿Cuánto debo <span style="color: rgb(216, 43, 44);">pagar</span>
+        <span id="phrase3" class="txt-type" data-wait="1000" data-words='["por arreglar la...?", " por enchapar el piso?", "por un mueble ...?"]'></span>
+    </h1>
+    <h1><img src="static/iconsearch.png">¿Cuál es el <span style="color: rgb(226, 216, 67);">costo</span>
+        <span id="phrase4" class="txt-type" data-wait="1000" data-words='["por m2 de una ... ?", "por m3 del ...?", "por kilometro de...?"]'></span>
+    </h1>
+    <h2>Costos obtenidos de tiendas, expediente técnicos, revistas, páginas web. <br>Todas las respuestas, las tenemos <span style="font-weight: bolder;">aquí</span>.</h2>
+    <a href="#section-2">
+        <div class="scroll-down"></div>
+    </a>
+</section>
+<section id="section-2" class= "caratula">
+    <div class="indice" >
+        <h1 style="font-weight:bold" >COTIZACIONES</h1>
+        <h2>Basados en precios constantemente actualizados del mercado, te brindamos:</h2>
+        <ul>
+            <li>Costos de Materiales</li>
+            <li>Costos de Mano de obra</li>
+            <li>Costos de Equipos</li>
+            <li>Costos de Maquinaria</li>
+        </ul>
+    </div>
+
+    <div class="indice">
+        <h1 style="font-weight:bold;">PRESUPUESTOS</h1>
+        <h2>Basados en la normativa peruana, te brindamos:</h2>
+        <ul>
+            <li>Análisis de precios unitarios</li>
+            <li>Partidas presupuestales</li>
+            <li>Rendimientos</li>
+            <li>Especificaciones técnicas</li>
+            <li>Metrados (Costos por m, m2, m3, etc)</li>
+        </ul>
+    </div>
+    <a href="#section-3">
+        <div class="scroll-down"></div>
+    </a>
+    
+</section>
+{% endblock %}
+
+{% block body %}
+<section id="section-3">
+    <div class="animado" data-aos="fade-up">
+        <div id= "handy_der" style="display: table; margin-top: 50px;">
+            <h1 class="h1_text" style="display: table-cell; vertical-align: middle; text-align: left;">¿Tu familia quiere saber <br> cuanto cuesta comprar y colocar <br> la ventana que haz roto? <br><span style="font-weight:bold">¡Cotiza!</span></h1>
+        </div>
+        <div id="handy_izq" style="margin-top: 50px;">
+            <img id="handy" src="static/HANDYPEOPLE.png" alt="" >
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="animado" data-aos="fade-down">
+        <div id="budget_der" style="margin-bottom: 70px;">
+            <img id="budget" src="static/budget.png" alt="" >
+        </div>
+        <div id ="budget_izq" style="display: table; margin-bottom: 70px;">
+            <h1 class="h1_text" style="display: table-cell; vertical-align: middle;">¿Tu jefe es muy serio <br>y necesitas informacion de <br>calidad no colorida? <br> <span style="font-weight:bold">¡Arma tu presupuesto!</span></h1>
+        </div>
+    </div>
+    <a href="#section-4">
+        <div class="scroll-down"></div>
+    </a>
+</section>
+
+<div class="clearfix"></div>
+
+<section id="section-4" class ="cubicornio">
+    <h1 style="text-align: center; padding: 20px;">¡Encuentra todo lo que necesites!</h1>
+
+    <div id="wrapper">
+        <div id="capa_izquierda">
+            <img id="imagen" src="static/cubicornio.png" alt="" style="width: 100%;">
+        </div>
+
+        <div id="capa_derecha">
+            <div style="height: 50%;">
+                <button class="btn btn-lg btn-outline-secondary" id="btn1" onclick="location.href = '/cotizaciones';">Cotizaciones</a>
+            </div>
+            <div style="height: 20px;"></div>
+            <div style="height: 50%;">
+                <button class="btn btn-lg btn-outline-secondary" id="btn2" onclick="location.href = '/';">Presupuestos</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

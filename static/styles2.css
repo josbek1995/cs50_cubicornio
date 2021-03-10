@@ -1,0 +1,179 @@
+html{
+    background-color: whitesmoke;
+}
+
+body
+{
+    /*No scrollbars in X axis*/
+    overflow-x: hidden;
+}
+
+.contenedor{
+    height: 100%;
+    padding: 10px 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+        "mapdiv seleccion seleccion" 
+        "mapdiv costo fuente"
+}
+
+.mapdiv{
+    grid-area: mapdiv;
+    padding: 0 30px;
+    text-align: center;
+}
+
+.seleccion{
+    padding-top: 100px;
+    grid-area: seleccion;
+    padding: 0 30px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.distritos{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.ubigeo{
+    margin: 0 20px;
+}
+
+.botones_costos{
+    margin: 0 auto;
+}
+
+.bar{
+    margin:0 auto;
+    margin-top: 40px;
+    width:80%;
+    height: 47px;
+    border-radius:30px;
+    border:1px solid #dcdcdc;
+}
+.bar:hover{
+    box-shadow: 1px 1px 8px 1px #dcdcdc;
+}
+.bar:focus-within{
+    box-shadow: 1px 1px 8px 1px #dcdcdc;
+    outline:none;
+}
+.searchbar{
+    height:45px;
+    border:none;
+    width: 70%;
+    margin-left: 10px;
+    font-size:16px;
+    outline: none; 
+}
+
+.bar img{
+    height: 1.5rem;
+    margin-left: 20px;
+    
+}
+
+.costo{
+    margin-top: 20px;
+    grid-area: costo;
+    text-align: center;
+}
+
+.costo h1{
+    padding-top: 20px;
+}
+
+.costo h2{
+    font-size: 1rem;
+    padding: 10px 0;
+}
+
+.fuente{
+    margin-top: 20px;
+    grid-area: fuente;
+    text-align: center;
+}
+
+.fuente h1{
+    font-size: 1.5rem;
+    padding-top: 10px;
+}
+
+.mapdiv path{
+    fill: #dddbda;
+    stroke: #3a371d;
+    stroke-width: 4px;
+    transition: fill 0.3s;
+
+}
+
+.mapdiv :hover{
+    fill: #000;
+}
+
+svg{
+    max-height: 640px;
+}
+
+footer
+{
+    background-color: whitesmoke;
+    margin: 0;
+    color: hsla(0,0%,100%,.5);
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: auto;
+}
+
+@media only screen and (max-width: 980px){
+    .contenedor{
+        padding: 0;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.75fr 1fr 0.5fr 0.5fr;
+        grid-template-areas: 
+            "mapdiv"
+            "seleccion"
+            "costo"
+            "fuente";
+    }
+
+    .seleccion{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .seleccion button{
+        margin: 5px auto;
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .seleccion br{
+        display: none;
+    }
+
+    .distritos{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    .botones_costos{
+        margin: 10px 10px;
+    }
+    .bar{
+        margin: 40px 0;
+        width: 100%;
+    }
+
+    .fuente{
+        padding-bottom: 80px;
+    }
+    .fuente h1{
+        font-size: 1.2rem;
+        padding-top: 10px;
+    }
+    
+}

@@ -1,0 +1,391 @@
+*
+{
+    font-family: 'Oxygen', sans-serif;
+    box-sizing: border-box;
+}
+html
+{
+    height: auto;
+    scroll-behavior: smooth;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    /*No scrollbars in X axis*/
+    overflow-x: hidden;
+}
+
+.contenedor{
+    margin: 0;
+    overflow: auto;
+}
+
+main ul{
+    padding: 0;
+    list-style: none;
+}
+
+main table
+{
+    /* left-align contents */
+    text-align: left;
+}
+
+main tfoot
+{
+    /* boldface tables' footers */
+    font-weight: bold;
+}
+/*---------------------------------------------------------------INDEX CSS---------------------------------------------------------*/
+.intro{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+}
+
+.intro h1{
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 1.7rem;
+    margin:15px auto;
+    width:900px;
+    border-radius:30px;
+    border:1px solid #dcdcdc;
+    background-color: white;
+    
+}
+
+.intro h1 img{
+    height: 1.5rem;
+    margin: auto;
+    margin-right: 20px;
+    
+}
+
+.intro h1:hover{
+    box-shadow: 1px 1px 8px 1px #dcdcdc;
+  }
+
+.intro h1:focus-within{
+    box-shadow: 1px 1px 8px 1px #dcdcdc;
+    outline:none;
+}
+
+.intro h2{
+    margin-top: 130px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.caratula{
+    display: grid;
+    padding: 0 100px;
+    position: relative;
+    min-height: 100vh;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 50px;
+    align-items: center;
+}
+
+.indice{
+    padding: 50px 20px;
+    padding-top: 180px; 
+    text-align: center;
+}
+
+#section-3{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0 220px;
+}
+
+#handy_izq
+{
+    float: left;
+    width: 40%;
+    text-align: right;
+}
+
+#budget_izq
+{
+    float: left;
+    width: 75%;
+    text-align: right;
+    height: 100%;
+}
+
+#handy_der
+{
+    float: right;
+    width: 60%;
+    height: 100%;
+}
+
+#handy
+{
+    max-height: 400px;
+    max-width: 100%;
+    padding-right: 20px;
+}
+
+#budget
+{
+    max-height: 400px;
+    max-width: 100%;
+    padding-left: 20px;
+} 
+
+#budget_der
+{
+    float: right;
+    width: 25%;
+    text-align: left;
+}
+
+#section-4{
+    position: relative;
+    margin-top: 70px;
+}
+
+#wrapper{
+    text-align: center;
+}
+
+#btn1, #btn2
+{
+    width: 100%;
+    height: 100%;
+}
+
+#capa_izquierda
+{
+    float: left;
+    width: 50%;
+}
+
+#capa_derecha
+{
+    float: right;
+    width: 50%;
+    height: 100%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-right: 30px;
+}
+
+.cubicornio{
+    background-color: white;
+    position: relative;
+    padding: 0px 200px;
+}
+
+footer
+{
+    background-color: whitesmoke;
+    margin: 0;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    color: hsla(0,0%,100%,.5);
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: auto;
+}
+
+.clearfix
+{
+    clear: both
+}
+
+/*scroll properties*/
+.scroll-down{
+    height: 50px;
+    width: 30px;
+    border: 2px solid black;
+    position: absolute;
+    left: 48%;
+    bottom: 20px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+ 
+.scroll-down::before,
+.scroll-down::after{
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    border: 2px solid black;
+    height: 10px;
+    width: 10px;
+    transform: translate(-50%, -100%) rotate(45deg);
+    border-top: transparent;
+    border-left: transparent;
+    animation: scroll-down 1s ease-in-out infinite;
+}
+
+.scroll-down::after{
+    top: 20%;
+    animation-delay: .3s;
+}
+
+/*Cursor animacion intro*/
+
+.txt-type > .txt {
+    position: relative;
+}
+
+.txt-type > .txt::after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    height: 100%;
+    width: 20px;
+    border-right: 3px solid black;
+    animation: blink 0.5s infinite ease;
+}
+
+@keyframes blink{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes scroll-down{
+    0%{
+        opacity: 0;
+    }
+    30%{
+        opacity: 1;
+    }
+    60%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+        top: 90%;
+    }
+}
+
+/*Change some conditions when viewport is modified*/
+@media (max-width: 1200px) {
+    .cubicornio {
+        padding: 0 80px;
+    }
+    #section-3{
+        padding: 0 50px;
+    }
+}
+
+@media (max-width: 750px) {
+    .intro{
+        padding-top: 50px;
+    }
+    .intro h1{
+        font-size: 1rem;
+        width: 350px;
+        margin: 10px auto;
+        margin-bottom: 40px;
+    }
+    .intro h1 img{
+        height: 1rem;
+        margin: auto;
+        margin-right: 10px; 
+    }
+    .intro h2{
+        font-size: 1rem;
+        position: relative;
+        bottom: 20%;
+        margin-top: 50px;
+        
+    }
+    .caratula {
+        padding: 50px 50px;
+        padding-top: 50px;
+        display: block;
+    }
+    .caratula h1{
+        font-size: 2rem;
+    }
+    .caratula h2{
+        font-size: 1rem;
+    }
+    .indice{
+        padding: 0px 0px;
+        margin-top: 70px; 
+        text-align: center;
+    }
+    #capa_izquierda{
+        float: none;
+        width: 100%;
+        display: table-footer-group;
+        position: static;
+    }
+    #capa_derecha{
+        float: none;
+        width: 100%;
+        display: table-header-group;
+        position: static;
+    }
+    #wrapper{
+        display: table;
+    }
+    .cubicornio{
+        padding: 0px 10px;
+    }
+    .cubicornio h1{
+        font-size: 30px;
+    }
+    #btn1{
+        height: 100px;
+    }
+    #btn2{
+        height: 100px;
+    }
+    #section-3{
+        padding: 0 0;
+        padding-top: 50px;
+    }
+    .animado{
+        padding: 0 0;
+        padding-top: 100px;
+    }
+}
+
+/*ANIMACIONES DE BACKGROUND*/
+
+.intro{
+    background-color: white;
+}
+
+#section-2{
+    background-color: rgb(224, 223, 223);
+}
+
+#section-3{
+    background-color: whitesmoke;
+}
+
+#section-4{
+    background-color: white;
+}
+
+/*---------------------------------------------------------------REGISTRATION CSS---------------------------------------------------------*/
+
+.form_box{
+    width: 300px;
+    margin: auto;
+    padding-top: 100px;
+    min-height: 90vh;
+    text-align: center;
+}

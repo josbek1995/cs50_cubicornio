@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Cubicorn ico -->
+        <link href="/static/favicon.ico" rel="icon">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+        
+        <link href="/static/styles1.css" rel="stylesheet">
+        
+        <!-- AOS Library -->
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+        <title>CUBICORNIO {% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-md fixed-top navbar-light" >
+            <a class="navbar-brand" href="/"><img src="static/nombre.png" style="width: 200px"></a>
+            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                {% if session.user_id %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" href="/quote">Quote</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/buy">Buy</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/sell">Sell</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="/cotizaciones">Cotizaciones</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/">Presupuestos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/">Tiendas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+        
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert alert-primary border text-center" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
+        {% endif %}
+
+
+        <main class="contenedor">
+        {% block main %}{% endblock %}
+        </main>
+
+        <div class="contenedor2">
+        {% block body %}{% endblock %}
+        </div>
+        
+        <footer class="small text-center text-muted">
+            © Todos los Derechos Reservados.
+        </footer>
+        
+        <!--Own Scripts -->
+        <script src="static/script.js"></script>
+
+    </body>
+    <!--AOE Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init(
+        {
+            duration:3000,
+            offset: 100 
+        }
+    );</script>
+    
+</html>
