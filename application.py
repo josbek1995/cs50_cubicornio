@@ -3,8 +3,6 @@ import os
 from flask_mysqldb import MySQL, MySQLdb
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
-from wtforms import SelectField
-from flask_wtf import FlaskForm
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -53,18 +51,12 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-class Form(FlaskForm):
-    departamentos = SelectField("departamentos", choices = [])
-    provincias = SelectField("departamentos", choices = [])
-    distritos = SelectField("departamentos", choices = [])
-
 @app.route("/")
 def index():
     return render_template("index.html")
     
 @app.route("/cotizaciones")
 def main():
-    form = Form()
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cur.execute("SELECT * FROM departamentos ORDER BY nombre_dpto")
     departamentos = cur.fetchall()
@@ -82,7 +74,7 @@ def provincias():
         OutputArray = []
         for row in provincia:
             outputObj = {
-                'id': row['codigo_prov'],
+                'id': row['dpto_prov'],
                 'name': row['nombre_prov']}
             OutputArray.append(outputObj)
 
@@ -93,15 +85,15 @@ def distritos():
     cursor = mysql.connection.cursor()
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     if request.method == 'POST':
-        codigo_prov = request.form['codigo_prov']  
-        cur.execute("SELECT * FROM distritos WHERE codigo_dpto = %s AND codigo_prov = %s ORDER BY nombre_prov ASC", [codigo_dpto],  )
+        codigo_prov = request.form['prov_dist']  
+        cur.execute("SELECT * FROM distritos WHERE dpto_prov = %s ORDER BY nombre_dist ASC", [codigo_prov])
         provincia = cur.fetchall()  
 
         OutputArray = []
         for row in provincia:
             outputObj = {
-                'id': row['codigo_prov'],
-                'name': row['nombre_prov']}
+                'id': row['ubigeo'],
+                'name': row['nombre_dist']}
             OutputArray.append(outputObj)
 
     return jsonify(OutputArray)
