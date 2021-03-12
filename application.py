@@ -55,7 +55,7 @@ Session(app)
 def index():
     return render_template("index.html")
     
-@app.route("/cotizaciones")
+@app.route("/costos")
 def main():
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cur.execute("SELECT * FROM departamentos ORDER BY nombre_dpto")
@@ -85,12 +85,12 @@ def distritos():
     cursor = mysql.connection.cursor()
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     if request.method == 'POST':
-        codigo_prov = request.form['prov_dist']  
-        cur.execute("SELECT * FROM distritos WHERE dpto_prov = %s ORDER BY nombre_dist ASC", [codigo_prov])
-        provincia = cur.fetchall()  
+        dpto_prov = request.form['dist_prov']  
+        cur.execute("SELECT * FROM distritos WHERE dpto_prov = %s ORDER BY nombre_dist ASC", [dpto_prov])
+        distrito = cur.fetchall()  
 
         OutputArray = []
-        for row in provincia:
+        for row in distrito:
             outputObj = {
                 'id': row['ubigeo'],
                 'name': row['nombre_dist']}

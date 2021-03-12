@@ -51,9 +51,7 @@
                     </ul>
                 {% else %}
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="/cotizaciones">Cotizaciones</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/">Presupuestos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/">Tiendas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/costos">Costos</a></li>
                         <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                         <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
                     </ul>
@@ -228,19 +226,20 @@
 
                 <div class="botones_costos">
                     <label>¿Qué costos buscas?</label><br>
-                    <button class="btn btn-lg btn-outline-secondary">COSTOS DE <br> MATERIALES</button>
-                    <button class="btn btn-lg btn-outline-secondary">COSTOS DE <br> MANOS DE OBRA</button>
-                    <button class="btn btn-lg btn-outline-secondary">COSTOS DE <br> EQUIPO</button>
-                    <button class="btn btn-lg btn-outline-secondary">COSTOS DE <br> MAQUINARIA</button>
+                    <button onclick="materiales(1)" id="materiales" class="btn btn-lg btn-outline-secondary">COSTOS DE <br> PRODUCTOS</button>
+                    <button onclick="materiales(1)" id="materiales" class="btn btn-lg btn-outline-secondary">COSTOS DE <br> MATERIALES</button>
+                    <button onclick="" class="btn btn-lg btn-outline-secondary" disabled>COSTOS DE <br> MANOS DE OBRA</button>
+                    <button onclick="" class="btn btn-lg btn-outline-secondary" disabled>COSTOS DE <br> EQUIPO</button>
+                    <button onclick="" class="btn btn-lg btn-outline-secondary" disabled>COSTOS DE <br> MAQUINARIA</button>
                 </div>
 
-                <div class="bar">
+                <div id="bar" class="bar">
                     <img src="static/iconsearch.png" alt="">
-                    <input class="searchbar" type="text" placeholder="¿Qué material buscas?">
+                    <input id="searchbar" class="searchbar" type="text" placeholder="">
                 </div>
             </div>
             
-            <div class="costo">
+            <div id="costo" class="costo">
                 <div>
                     Costo promedio:
                 </div>
@@ -254,7 +253,7 @@
                 <h2>Costo a la fecha <br>(valor más actualizado): 09-03-2021</h2>
             </div>
             
-            <div class="fuente">
+            <div id="fuente" class="fuente">
                 <div>
                     Costo obtenido de:
                 </div>
@@ -280,7 +279,7 @@
         <script src="static/scriptAJAX.js"></script>
 
         <footer class="small text-center text-muted">
-            © Todos los Derechos Reservados.
+            © Todos los Derechos Reservados. v1.0
         </footer>
 
     </body>
