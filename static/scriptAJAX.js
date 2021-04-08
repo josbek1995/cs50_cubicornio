@@ -72,45 +72,153 @@ $(document).ready(function () {
   
   });
 
-  /*------------------------------------------------------------------------------------------- */  
+
+  /*-------------------------- SCRIPT PARA ACTIVAR BOTONES LUEGO DE SELECCIONAR EL DISTRITO---------------------------------------- */
+
+$(document).on("change", "#departamentos", function () {
+    /* Here we trigger the 2nd action of the button function where all divs are displayed as "none" */
+    materiales(2);
+    /* change Button attribute to "disabled" */
+    $('#materiales').attr('disabled', 'disabled');
+});
+
+$(document).on("change", "#provincias", function () {
+    materiales(2);
+
+    $('#materiales').attr('disabled', 'disabled');
+});
+
+const selectElement = document.querySelector('#distritos');
+
+selectElement.addEventListener('change', () => {
+    selectVal = $('#distritos').val();
+    if (selectVal != '') {
+        $('#materiales').prop("disabled", false);
+    }
+});
+
+
+/*------------------------------------------------------------------------------------------- */  
 /* Here we define the show and hide option of prices and sources of information */
 
-$(document).ready(function(){
-    $("#costo").css("display","none");
-    $("#fuente").css("display","none");
-    $("#bar").css("display","none");
+$(document).ready(function resetall(){
+    $("#costo1").css("display","none");
+    $("#fuente1").css("display","none");
+    $("#bar1").css("display","none");
+    $("#bar2").css("display","none");
+
+    $("#costo2").css("display","none");
+    $("#fuente2").css("display","none");
     
 });
 
-/*When the button is clicked, divs will be shown*/
-/*function show(){
-    $("#costo").css("display","inline");
-    $("#fuente").css("display", "inline");
-    $("#bar").css("display","inline");
-}*/
+/*Button to control "COSTOS DE PRODUCTOS*/
 
-/*Button to control "COSTOS DE MATERIALES"*/
+var count1 = 0;
+function productos(y){
+    var y;
+    if(y == 1){
+        count1 = count1 + 1;
+    }
+    /*Here we reset the button whe is called the function productos(2)*/
+    else if(y == 2){
+        count1 = 2;
+    }
+    if(count1 == 1){
+        document.getElementById("productos").style.background="red";
+        document.getElementById("productos").style.color="white";
+        $("#costo1").css("display","inline");
+        $("#fuente1").css("display", "inline");
+        $("#bar1").css("display","inline");
+        /*Aqui colocamos designamos el atributo de placeholder a la barra de busquedas */
+        document.getElementById("searchbar1").setAttribute('placeholder', "¿Qué producto buscas?");
+        materiales(2);
+    }
+    else if(count1 == 2){
+        document.getElementById("productos").style.background="";
+        document.getElementById("productos").style.color="";
+        $("#costo1").css("display","none");
+        $("#fuente1").css("display","none");
+        $("#bar1").css("display","none");
+        count1 = 0;
+    }
+}
+
+/*Button to control "COSTOS DE MATERIALES*/
 var count = 0;
 function materiales(x){
     var x;
     if(x == 1){
         count = count + 1;
     }
+    /*Here we reset the button whe is called the function materiales(2)*/
+    else if(x == 2){
+        count = 2;
+    }
     if(count == 1){
         document.getElementById("materiales").style.background="green";
         document.getElementById("materiales").style.color="white";
-        $("#costo").css("display","inline");
-        $("#fuente").css("display", "inline");
-        $("#bar").css("display","inline");
+        $("#bar2").css("display","inline");
         /*Aqui colocamos designamos el atributo de placeholder a la barra de busquedas */
-        document.getElementById("searchbar").setAttribute('placeholder', "¿Qué material buscas?");
+        document.getElementById("searchbar2").setAttribute('placeholder', "¿Qué material buscas?");
+        /*Here we call the reset function to restart previous buttons clicked */
+        productos(2);
     }
     else if(count == 2){
         document.getElementById("materiales").style.background="";
         document.getElementById("materiales").style.color="";
-        $("#costo").css("display","none");
-        $("#fuente").css("display","none");
-        $("#bar").css("display","none");
+        $("#costo2").css("display","none");
+        $("#fuente2").css("display","none");
+        $("#bar2").css("display","none");
         count = 0;
     }
 }
+/*--------------------------------------------- ANIMACION DEL MAPA DEL PERU SVG----------------------------------------------------- */
+
+/* aqui cada que se selecciona un departamento en la lista desplegable, se pinta en el mapa */
+$(function(){
+    /*When the selected option changes, this function is triggered */
+    $("#departamentos").change(function(){
+        /*Here all svg paths properties are restarted to initial condition color style gray-white color*/
+        let paths = document.getElementsByTagName("path")
+        for(i = 0; i < paths.length; i++){
+            document.getElementsByTagName("path")[i].setAttribute("style", "fill:#dddbda")
+        }
+        /* Here, the zone selected is highlighted */
+        let displaydepartamento = $("#departamentos option:selected").text();
+        document.getElementById(displaydepartamento).style.fill = "#367DCF";
+    })
+})
+
+/*--------------------------------------------- LIVE DATA SEARCH BAR 1 PRODUCTOS ----------------------------------------------------- */
+
+/*--------------------------------------------- LIVE DATA SEARCH BAR 2 MATERIALES ----------------------------------------------------- */
+
+$(document).ready(function(){
+    load_data();
+    function load_data(query, ubigeo)
+    {
+    $.ajax({
+        url:"/resultado_materiales",
+        method:"POST",
+        data:{'query': query, 'ubigeo': ubigeo},
+        success:function(data)
+        {
+        $('#resultado2').html(data);
+        $("#resultado2").append(data.htmlresponse);
+        }
+    });
+    }
+    $('#searchbar2').keyup(function(){
+        var search = $(this).val();
+        var ubigeo = $("#distritos").val();
+        if (search != ''){
+            load_data(search, ubigeo);
+        }else{
+            load_data()
+        }
+    })
+})
+
+/* AUTOCOMPLETE TEXTBOX resultado_barra2*/
+

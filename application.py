@@ -68,7 +68,7 @@ def provincias():
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     if request.method == 'POST':
         codigo_dpto = request.form['codigo_dpto']  
-        cur.execute("SELECT * FROM provincias WHERE codigo_dpto = %s ORDER BY nombre_prov ASC", [codigo_dpto] )
+        cur.execute("SELECT * FROM provincias WHERE codigo_dpto = %(codigo_dpto)s ORDER BY nombre_prov ASC", {'codigo_dpto': codigo_dpto} )
         provincia = cur.fetchall()
 
         OutputArray = []
@@ -86,7 +86,7 @@ def distritos():
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     if request.method == 'POST':
         dpto_prov = request.form['dist_prov']  
-        cur.execute("SELECT * FROM distritos WHERE dpto_prov = %s ORDER BY nombre_dist ASC", [dpto_prov])
+        cur.execute("SELECT * FROM distritos WHERE dpto_prov = %(dpto_prov)s ORDER BY nombre_dist ASC", {'dpto_prov': dpto_prov})
         distrito = cur.fetchall()  
 
         OutputArray = []
@@ -97,6 +97,29 @@ def distritos():
             OutputArray.append(outputObj)
 
     return jsonify(OutputArray)
+
+# ----------------------------------LLAMADOS A BASE DE DATOS PARA GENERAR LA INFORMACIÓN DE MATERIALES-------------------------------
+
+@app.route("/resultado_materiales",methods=["POST","GET"])
+def resultado_materiales():
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    if request.method == 'POST':
+        search_word = request.form['query']
+        ubigeo = request.form['ubigeo']
+        if search_word == '':
+            query = "SELECT AVG(Precio) AS average from materiales"
+            cur.execute(query)
+            material = cur.fetchall()
+        else:    
+            query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
+            cur.execute(query)
+            numrows = int(cur.rowcount)
+            material = cur.fetchall()
+            print(material)
+
+    return jsonify({'htmlresponse': render_template('respuesta2.html', material=material, numrows=numrows)})
+# ----------------------------------LLAMADOS A BASE DE DATOS PARA GENERAR LA INFORMACIÓN DE MATERIALES-------------------------------
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -115,6 +138,10 @@ def login():
     else:
         return render_template("login.html")
 
+@app.route("/develop")
+def develop():
+
+    return render_template("develop.html")
 
 @app.route("/logout")
 def logout():

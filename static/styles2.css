@@ -1,3 +1,8 @@
+*
+{
+    font-family: 'Oxygen', sans-serif;
+}
+
 html{
     background-color: whitesmoke;
 }
@@ -6,8 +11,10 @@ body
 {
     /*No scrollbars in X axis*/
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
+/* PARA RECORDAR, AL COLOCAR EL TEMPLATE GRID AREA- SOLAMENTE ESE DIV CON LA CLASE COSTO SE MOSTRARÁ*/
 .contenedor{
     height: 100%;
     padding: 10px 50px;
@@ -16,7 +23,7 @@ body
     grid-template-rows: 1fr 1fr;
     grid-template-areas: 
         "mapdiv seleccion seleccion" 
-        "mapdiv costo fuente"
+        "mapdiv resultado resultado"
 }
 
 .mapdiv{
@@ -31,11 +38,16 @@ body
     padding: 0 30px;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+        "busqueda"
+        "botones"
+        "barra";
 }
 
 .distritos{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-area: busqueda;
 }
 
 .ubigeo{
@@ -44,6 +56,7 @@ body
 
 .botones_costos{
     margin: 0 auto;
+    grid-area: botones;
 }
 
 .bar{
@@ -53,6 +66,7 @@ body
     height: 47px;
     border-radius:30px;
     border:1px solid #dcdcdc;
+    grid-area: barra;
 }
 .bar:hover{
     box-shadow: 1px 1px 8px 1px #dcdcdc;
@@ -76,6 +90,14 @@ body
     
 }
 
+.resultado{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "costo fuente";
+    grid-area: resultado;
+}
+
+/* PARA RECORDAR, AL COLOCAR EL GRID AREA- SOLAMENTE ESE DIV CON LA CLASE COSTO SE MOSTRARÁ*/
 .costo{
     margin-top: 20px;
     grid-area: costo;
@@ -107,11 +129,11 @@ body
     stroke: #3a371d;
     stroke-width: 4px;
     transition: fill 0.3s;
-
 }
 
 .mapdiv :hover{
     fill: #000;
+    cursor: pointer;
 }
 
 svg{
@@ -129,15 +151,29 @@ footer
 }
 
 @media only screen and (max-width: 980px){
+    body
+    {
+    /*Allows scrollbars in Y axis*/
+    overflow-y: unset;
+    }
     .contenedor{
         padding: 0;
         grid-template-columns: 1fr;
-        grid-template-rows: 0.75fr 1fr 0.5fr 0.5fr;
+        grid-template-rows: 0.75fr 1fr 1fr;
         grid-template-areas: 
             "mapdiv"
             "seleccion"
-            "costo"
-            "fuente";
+            "resultado";    
+        }
+
+    .resultado{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+        "costo" 
+        "fuente";
+        grid-area: resultado;
     }
 
     .seleccion{
@@ -176,4 +212,6 @@ footer
         padding-top: 10px;
     }
     
+    
 }
+

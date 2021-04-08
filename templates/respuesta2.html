@@ -1,0 +1,35 @@
+<div id="costo2" class="costo">
+    <div>
+        Costo promedio:
+    </div>
+    <!--FILA [0] para seleccionar el average -->
+    <h1 id="result2">{{ "S/.{:,.2f}".format(material[0]["average"])}} soles</h1><!--formato para que sean soles el float value -->
+    <h3 style="font-size: 1.5rem;">x {{material[0]["Und_largo"]}} ({{material[0]["Und"]}})</h3>
+    <h2>Se vende por</h2>
+    <div>
+        {% for row in material %}
+        <button class="btn btn-outline-primary">{{row.Und_largo}}</button>
+        {% endfor %}
+    </div>
+    <h2>Costo a la fecha <br>(valor más actualizado): {{material[0]["max_date"]}}</h2>
+</div>
+
+<!--FUENTES MATERIALES -->
+
+<div id="fuente2" class="fuente">
+    <div>
+        Costo obtenido de:
+    </div>
+    <div>
+        <h1>{{ material[0]["t_fisica"] }} tiendas fisicas en la zona</h1>
+        <button class="btn btn-outline-success" onclick="location.href = '/develop';">VER TIENDAS</button>
+    </div>
+    <div>
+        <h1>{{ material[0]["t_virtual"] }} tiendas virtuales</h1>
+        <button class="btn btn-outline-success" onclick="location.href = '/develop';">VER TIENDAS</button>
+    </div>
+    <div>
+        <h1>{{ material[0]["expe"] }}  expedientes técnicos</h1>
+        <button class="btn btn-outline-success" onclick="location.href = '/develop';">VER EXPEDIENTES</button>
+    </div>
+</div>
