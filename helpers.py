@@ -39,3 +39,6 @@ def usd(value):
     """Format value as USD."""
     return f"${value:,.2f}"
 
+def soles(value):
+    """Format value as SOLES."""
+    return f"S/.{value:,.2f}"

@@ -19,7 +19,7 @@ $(document).ready(function () {
               }
               if (type == "ubigeo_Data") {
                   $("#departamentos").html(html);
-                  $("#departamento").selectpicker("refresh");
+                  $("#departamentos").selectpicker("refresh");
               } else {
                   $("#provincias").html(html);
                   $("#provincias").selectpicker("refresh");
@@ -204,8 +204,8 @@ $(document).ready(function(){
         data:{'query': query, 'ubigeo': ubigeo},
         success:function(data)
         {
-        $('#resultado2').html(data);
-        $("#resultado2").append(data.htmlresponse);
+            $('#resultado2').html(data);
+            $("#resultado2").append(data.htmlresponse);
         }
     });
     }
@@ -221,4 +221,63 @@ $(document).ready(function(){
 })
 
 /* AUTOCOMPLETE TEXTBOX resultado_barra2*/
+
+/*-------------------------- SCRIPT PARA CAMBIAR COSTO SEGUN LA UNIDAD SELECCIONADA APRETANDO BOTON---------------------------------------- */
+
+$(document).ready(function () {    
+  
+    function load_data(query, ubigeo) {
+        $.ajax({
+            url: "/unidades_materiales",
+            method: "POST",
+            data:{'query': query, 'ubigeo': ubigeo},
+            dataType: "json",
+            success: function (data) { 
+                /* BOTONES dentro del div*/
+                var html = "<img src='static/loading.gif' style='height: 30px;' alt=''>";
+
+                /* FUNCION informacion (x)*/
+                var respuesta2 = '';
+                var respuesta2_unit = '';
+                var resp2_tfisica = '';
+                var resp2_tfisica = '';
+                var resp2_expe = '';
+                var date = '';
+
+                for (var count = 0; count < data.length; count++) {
+                    html += '<button class="btn btn-outline-primary" style="margin:5px" id="informacion">' + data[count].und_largo + "</button>";               
+                    respuesta2 = data[count].average + ' soles';
+                    respuesta2_unit = 'x ' + data[count].und_largo + ' ('+ data[count].und +')';
+                    resp2_tfisica = data[count].fisica + ' tienda(s) fisicas en la zona';
+                    resp2_tvirtual =  data[count].virtual + ' tienda(s) virtuales en la zona';
+                    resp2_expe =  data[count].expe + ' expediente(s) técnico(s)';
+                    date = data[count].date;
+                    
+                    /*using variables within a jquery selector, in this case, .on() child_selector*/
+                    $('body').on('click', '#informacion', function() {
+                        $("#respuesta2").html(respuesta2);
+                        $("#respuesta2_unit").html(respuesta2_unit);
+                        $("#resp2_tfisica").html(resp2_tfisica);
+                        $("#resp2_tvirtual").html(resp2_tvirtual);
+                        $("#resp2_expe").html(resp2_expe);
+                        $("#resp2_fecha").html(date);
+                    });
+                
+                }
+                $("#respuesta2_buttons").html(html);
+            },
+        });
+    }
+  
+    $('#searchbar2').keyup(function(){
+        var search = $(this).val();
+        var ubigeo = $("#distritos").val();
+        if (search != ''){
+            load_data(search, ubigeo);
+        }else{
+            load_data()
+        }
+    })
+});
+
 

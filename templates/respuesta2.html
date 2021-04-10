@@ -3,15 +3,12 @@
         Costo promedio:
     </div>
     <!--FILA [0] para seleccionar el average -->
-    <h1 id="result2">{{ "S/.{:,.2f}".format(material[0]["average"])}} soles</h1><!--formato para que sean soles el float value -->
-    <h3 style="font-size: 1.5rem;">x {{material[0]["Und_largo"]}} ({{material[0]["Und"]}})</h3>
+    <h1 id="respuesta2">{{ "S/.{:,.2f}".format(material[0]["average"])}} soles</h1><!--formato para que sean soles el float value -->
+    <h3 id="respuesta2_unit" style="font-size: 1.5rem;">x {{material[0]["Und_largo"]}} ({{material[0]["Und"]}})</h3>
     <h2>Se vende por</h2>
-    <div>
-        {% for row in material %}
-        <button class="btn btn-outline-primary">{{row.Und_largo}}</button>
-        {% endfor %}
-    </div>
-    <h2>Costo a la fecha <br>(valor más actualizado): {{material[0]["max_date"]}}</h2>
+    <!--Here the AJAX called buttons are placed -->
+    <div id="respuesta2_buttons"></div>
+    <h2>Costo a la fecha <br>(valor más actualizado):<span id="resp2_fecha">{{material[0]["max_date"]}}</span></h2>
 </div>
 
 <!--FUENTES MATERIALES -->
@@ -21,15 +18,16 @@
         Costo obtenido de:
     </div>
     <div>
-        <h1>{{ material[0]["t_fisica"] }} tiendas fisicas en la zona</h1>
+        <h1 id="resp2_tfisica">{{ material[0]["t_fisica"] }} tienda(s) fisica(s) en la zona</h1>
         <button class="btn btn-outline-success" onclick="location.href = '/develop';">VER TIENDAS</button>
     </div>
     <div>
-        <h1>{{ material[0]["t_virtual"] }} tiendas virtuales</h1>
+        <h1 id="resp2_tvirtual">{{ material[0]["t_virtual"] }} tienda(s) virtuale(s)</h1>
         <button class="btn btn-outline-success" onclick="location.href = '/develop';">VER TIENDAS</button>
     </div>
     <div>
-        <h1>{{ material[0]["expe"] }}  expedientes técnicos</h1>
+        <h1 id="resp2_expe">{{ material[0]["expe"] }}  expediente(s) técnico(s)</h1>
         <button class="btn btn-outline-success" onclick="location.href = '/develop';">VER EXPEDIENTES</button>
     </div>
 </div>
+

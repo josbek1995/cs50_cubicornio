@@ -8,7 +8,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-from helpers import apology, login_required, usd
+from helpers import apology, login_required, usd, soles
 
 # Configure application
 app = Flask(__name__)
@@ -44,6 +44,7 @@ def after_request(response):
 
 # Custom filter
 app.jinja_env.filters["usd"] = usd
+app.jinja_env.filters["soles"] = soles
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -113,12 +114,37 @@ def resultado_materiales():
         else:    
             query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
             cur.execute(query)
-            numrows = int(cur.rowcount)
             material = cur.fetchall()
-            print(material)
 
-    return jsonify({'htmlresponse': render_template('respuesta2.html', material=material, numrows=numrows)})
-# ----------------------------------LLAMADOS A BASE DE DATOS PARA GENERAR LA INFORMACIÓN DE MATERIALES-------------------------------
+    return jsonify({'htmlresponse': render_template('respuesta2.html', material=material)})
+
+
+@app.route("/unidades_materiales",methods=["POST","GET"])
+def unidades_materiales():
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    if request.method == 'POST':
+        search_word = request.form['query']
+        ubigeo = request.form['ubigeo']   
+        query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
+        cur.execute(query)
+        material = cur.fetchall()
+
+        OutputArray = []
+        for row in material:
+            outputObj = {
+                'und': row['Und'],
+                'und_largo': row['Und_largo'],
+                'average': soles(row['average']),
+                'date': row['max_date'],
+                'fisica': row['t_fisica'],
+                'virtual': row['t_virtual'],
+                'expe': row['expe']}
+            OutputArray.append(outputObj)
+
+    return jsonify(OutputArray)
+# -------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 @app.route("/login", methods=["GET", "POST"])
