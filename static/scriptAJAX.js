@@ -99,7 +99,7 @@ selectElement.addEventListener('change', () => {
 
 
 /*------------------------------------------------------------------------------------------- */  
-/* Here we define the show and hide option of prices and sources of information */
+/* Here we define the show and hide option of prices and sources of information - TODO:WE NEED TO IMPROVE THIS PART*/ 
 
 $(document).ready(function resetall(){
     $("#costo1").css("display","none");
@@ -220,7 +220,31 @@ $(document).ready(function(){
     })
 })
 
-/* AUTOCOMPLETE TEXTBOX resultado_barra2*/
+/* AUTOCOMPLETE TEXTBOX resultado_barra2/
+$(document).ready(function(){
+    $.ajaxSetup({ cache: false });
+    $('#searchbar2').keyup(function(){
+        $('#resultado2_lista').html('');
+        $('#state').val('');
+        var searchField = $('#searchbar2').val();
+        var expression = new RegExp(searchField, "i");
+        $.getJSON('/unidades_materiales', function(data) {
+            $.each(data, function(key, value){
+                if (value.descrip.search(expression) != -1){
+                $('#resultado2_lista').append('<li class="list-group-item link-class"> '+value.descrip+' | <span class="text-muted">'+value.marca+'</span></li>');
+                }
+            });   
+        });
+    });
+    
+    $('#resultado2_lista').on('click', 'li', function() {
+        var click_text = $(this).text().split('|');
+        $('#searchbar2').val($.trim(click_text[0]));
+        $("#resultado2_lista").html('');
+        });
+   });
+
+
 
 /*-------------------------- SCRIPT PARA CAMBIAR COSTO SEGUN LA UNIDAD SELECCIONADA APRETANDO BOTON---------------------------------------- */
 
@@ -233,38 +257,55 @@ $(document).ready(function () {
             data:{'query': query, 'ubigeo': ubigeo},
             dataType: "json",
             success: function (data) { 
+                /* AUTOCOMPLETE TEXTBOX resultado_barra2*/
+                $.each(data, function(key, value){
+                    var searchField = $('#searchbar2').val();
+                    var expression = new RegExp(searchField, "i");
+                    if (value.descrip.search(expression) != -1){
+                    $('#resultado2_lista').append('<li class="list-group-item link-class"> '+value.descrip+' | <span class="text-muted">'+value.marca+'</span></li>');
+                    }
+                });
+
                 /* BOTONES dentro del div*/
-                var html = "<img src='static/loading.gif' style='height: 30px;' alt=''>";
+                var html = "";
 
                 /* FUNCION informacion (x)*/
-                var respuesta2 = '';
-                var respuesta2_unit = '';
-                var resp2_tfisica = '';
-                var resp2_tfisica = '';
-                var resp2_expe = '';
-                var date = '';
+                var respuesta2 = [];
+                var respuesta2_unit = [];
+                var resp2_tfisica = [];
+                var resp2_tvirtual = [];
+                var resp2_expe = [];
+                var date = [];
 
                 for (var count = 0; count < data.length; count++) {
-                    html += '<button class="btn btn-outline-primary" style="margin:5px" id="informacion">' + data[count].und_largo + "</button>";               
-                    respuesta2 = data[count].average + ' soles';
-                    respuesta2_unit = 'x ' + data[count].und_largo + ' ('+ data[count].und +')';
-                    resp2_tfisica = data[count].fisica + ' tienda(s) fisicas en la zona';
-                    resp2_tvirtual =  data[count].virtual + ' tienda(s) virtuales en la zona';
-                    resp2_expe =  data[count].expe + ' expediente(s) técnico(s)';
-                    date = data[count].date;
-                    
-                    /*using variables within a jquery selector, in this case, .on() child_selector*/
-                    $('body').on('click', '#informacion', function() {
-                        $("#respuesta2").html(respuesta2);
-                        $("#respuesta2_unit").html(respuesta2_unit);
-                        $("#resp2_tfisica").html(resp2_tfisica);
-                        $("#resp2_tvirtual").html(resp2_tvirtual);
-                        $("#resp2_expe").html(resp2_expe);
-                        $("#resp2_fecha").html(date);
-                    });
+                    html += '<button class="btn btn-outline-primary" style="margin:5px" id="informacion' + count + '">' + data[count].und_largo + "</button>";               
+                    respuesta2[count] = data[count].average + ' soles';
+                    respuesta2_unit[count] = 'x ' + data[count].und_largo + ' ('+ data[count].und +')';
+                    resp2_tfisica[count] = data[count].fisica + ' tienda(s) fisica(s) en la zona';
+                    resp2_tvirtual[count] =  data[count].virtual + ' tienda(s) virtuale(s) en la zona';
+                    resp2_expe[count] =  data[count].expe + ' expediente(s) técnico(s)';
+                    date[count] = data[count].date;
+                }   
+                /*variables within a jquery selector, in this case, .on() child_selector - TODO:WE NEED TO IMPROVE THIS PART*/
+                $('body').on('click', '#informacion0', function() {
+                    $("#respuesta2").html(respuesta2[0]);
+                    $("#respuesta2_unit").html(respuesta2_unit[0]);
+                    $("#resp2_tfisica").html(resp2_tfisica[0]);
+                    $("#resp2_tvirtual").html(resp2_tvirtual[0]);
+                    $("#resp2_expe").html(resp2_expe[0]);
+                    $("#resp2_fecha").html(date[0]);
+                });
+
+                $('body').on('click', '#informacion1', function() {
+                    $("#respuesta2").html(respuesta2[1]);
+                    $("#respuesta2_unit").html(respuesta2_unit[1]);
+                    $("#resp2_tfisica").html(resp2_tfisica[1]);
+                    $("#resp2_tvirtual").html(resp2_tvirtual[1]);
+                    $("#resp2_expe").html(resp2_expe[1]);
+                    $("#resp2_fecha").html(date[1]);
+                });
                 
-                }
-                $("#respuesta2_buttons").html(html);
+                $("#respuesta2_buttons").html(html); 
             },
         });
     }
@@ -277,6 +318,16 @@ $(document).ready(function () {
         }else{
             load_data()
         }
+
+        /* AUTOCOMPLETE TEXTBOX resultado_barra2*/
+        $('#resultado2_lista').html('');
+        $('#state').val('');
+
+        $('#resultado2_lista').on('click', 'li', function() {
+            var click_text = $(this).text().split('|');
+            $('#searchbar2').val($.trim(click_text[0]));
+            $("#resultado2_lista").html('');
+            });        
     })
 });
 

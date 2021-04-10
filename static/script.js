@@ -163,7 +163,7 @@ class TypeWriter {
 // Init On DOM Load
 document.addEventListener('DOMContentLoaded', init1);
 
-// Init App
+// Init App - TODO:WE NEED TO IMPROVE THIS PART--------------------------------------------------------------------
 function init1() {
   const txtElement = document.getElementById("phrase1");
   const words = JSON.parse(txtElement.getAttribute('data-words'));

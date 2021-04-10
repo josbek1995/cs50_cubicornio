@@ -125,13 +125,15 @@ def unidades_materiales():
     if request.method == 'POST':
         search_word = request.form['query']
         ubigeo = request.form['ubigeo']   
-        query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
+        query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und, Descrip, Marca from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
         cur.execute(query)
         material = cur.fetchall()
 
         OutputArray = []
         for row in material:
             outputObj = {
+                'descrip': row['Descrip'],
+                'marca': row['Marca'],
                 'und': row['Und'],
                 'und_largo': row['Und_largo'],
                 'average': soles(row['average']),
