@@ -195,8 +195,8 @@ $(function(){
 /*--------------------------------------------- LIVE DATA SEARCH BAR 2 MATERIALES ----------------------------------------------------- */
 
 $(document).ready(function(){
-    load_data();
-    function load_data(query, ubigeo)
+    load_data2();
+    function load_data2(query, ubigeo)
     {
     $.ajax({
         url:"/resultado_materiales",
@@ -209,50 +209,24 @@ $(document).ready(function(){
         }
     });
     }
-    $('#searchbar2').keyup(function(){
-        var search = $(this).val();
-        var ubigeo = $("#distritos").val();
-        if (search != ''){
-            load_data(search, ubigeo);
-        }else{
-            load_data()
-        }
-    })
-})
-
-/* AUTOCOMPLETE TEXTBOX resultado_barra2/
-$(document).ready(function(){
-    $.ajaxSetup({ cache: false });
-    $('#searchbar2').keyup(function(){
-        $('#resultado2_lista').html('');
-        $('#state').val('');
-        var searchField = $('#searchbar2').val();
-        var expression = new RegExp(searchField, "i");
-        $.getJSON('/unidades_materiales', function(data) {
-            $.each(data, function(key, value){
-                if (value.descrip.search(expression) != -1){
-                $('#resultado2_lista').append('<li class="list-group-item link-class"> '+value.descrip+' | <span class="text-muted">'+value.marca+'</span></li>');
-                }
-            });   
-        });
-    });
-    
-    $('#resultado2_lista').on('click', 'li', function() {
+    $('#resultado2_lista').on('click', 'li',function(){
         var click_text = $(this).text().split('|');
         $('#searchbar2').val($.trim(click_text[0]));
-        $("#resultado2_lista").html('');
-        });
-   });
-
-
+        /* Aqui una vez se haya hecho click la opcion de la lista desplegable, se selecciona 
+        el input de la barra de busqueda y se carga la info*/
+        var search = $('#searchbar2').val();
+        var ubigeo = $("#distritos").val();
+        load_data2(search, ubigeo); 
+    })
+})
 
 /*-------------------------- SCRIPT PARA CAMBIAR COSTO SEGUN LA UNIDAD SELECCIONADA APRETANDO BOTON---------------------------------------- */
 
 $(document).ready(function () {    
   
-    function load_data(query, ubigeo) {
+    function load_searchbar2(query, ubigeo) {
         $.ajax({
-            url: "/unidades_materiales",
+            url: "/lista_materiales",
             method: "POST",
             data:{'query': query, 'ubigeo': ubigeo},
             dataType: "json",
@@ -265,7 +239,17 @@ $(document).ready(function () {
                     $('#resultado2_lista').append('<li class="list-group-item link-class"> '+value.descrip+' | <span class="text-muted">'+value.marca+'</span></li>');
                     }
                 });
-
+            },
+        });
+    }
+    
+    function load_buttons2(query, ubigeo) {
+        $.ajax({
+            url: "/unidades_materiales",
+            method: "POST",
+            data:{'query': query, 'ubigeo': ubigeo},
+            dataType: "json",
+            success: function (data) { 
                 /* BOTONES dentro del div*/
                 var html = "";
 
@@ -309,26 +293,38 @@ $(document).ready(function () {
             },
         });
     }
-  
+
+    /* AQUI SE INICIALIZA LA LISTA DE BUSQUEDA EN LA BARRA SEARCHBAR2*/
     $('#searchbar2').keyup(function(){
         var search = $(this).val();
         var ubigeo = $("#distritos").val();
         if (search != ''){
-            load_data(search, ubigeo);
+            load_searchbar2(search, ubigeo);
         }else{
-            load_data()
+            load_searchbar2()
         }
 
-        /* AUTOCOMPLETE TEXTBOX resultado_barra2*/
         $('#resultado2_lista').html('');
-        $('#state').val('');
 
+        /* Aqui se hace clickeable las opciones de la lista */
         $('#resultado2_lista').on('click', 'li', function() {
             var click_text = $(this).text().split('|');
             $('#searchbar2').val($.trim(click_text[0]));
             $("#resultado2_lista").html('');
-            });        
+        });        
     })
+
+    /* AQUI SE INICIALIZA LOS RESULTADOS2 (OSEA, COSTO, BOTONES, TIENDAS, ETC)*/
+    $('#resultado2_lista').on('click', 'li',function(){
+        var click_text = $(this).text().split('|');
+        $('#searchbar2').val($.trim(click_text[0]));
+        /* Aqui una vez se haya hecho click la opcion de la lista desplegable, se selecciona el 
+        input de la barra de busqueda y se carga los botones*/
+        var search = $('#searchbar2').val();
+        var ubigeo = $("#distritos").val();
+        load_buttons2(search, ubigeo);    
+    })
+
 });
 
 

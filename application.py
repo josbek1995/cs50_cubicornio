@@ -112,20 +112,19 @@ def resultado_materiales():
             cur.execute(query)
             material = cur.fetchall()
         else:    
-            query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
+            query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und from materiales WHERE Descrip = '{}' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
             cur.execute(query)
             material = cur.fetchall()
 
     return jsonify({'htmlresponse': render_template('respuesta2.html', material=material)})
 
-
-@app.route("/unidades_materiales",methods=["POST","GET"])
-def unidades_materiales():
+@app.route("/lista_materiales",methods=["POST","GET"])
+def lista_materiales():
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     if request.method == 'POST':
         search_word = request.form['query']
         ubigeo = request.form['ubigeo']   
-        query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und, Descrip, Marca from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Und_largo".format(search_word, ubigeo)
+        query = "SELECT Descrip, Marca from materiales WHERE Descrip LIKE '%{}%' AND ubigeo='{}' GROUP BY Descrip".format(search_word, ubigeo)
         cur.execute(query)
         material = cur.fetchall()
 
@@ -133,7 +132,24 @@ def unidades_materiales():
         for row in material:
             outputObj = {
                 'descrip': row['Descrip'],
-                'marca': row['Marca'],
+                'marca': row['Marca']}
+            OutputArray.append(outputObj)
+
+    return jsonify(OutputArray)
+
+@app.route("/unidades_materiales",methods=["POST","GET"])
+def unidades_materiales():
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    if request.method == 'POST':
+        search_word = request.form['query']
+        ubigeo = request.form['ubigeo']   
+        query = "SELECT CAST(SUM(CASE WHEN Id_fuente = 'T_VIR' THEN 1 ELSE 0 END) AS int) AS t_virtual, CAST(SUM(CASE WHEN Id_fuente = 'T_FIS' THEN 1 ELSE 0 END) AS int) AS t_fisica, CAST(SUM(CASE WHEN Id_fuente = 'E_PUB' THEN 1 ELSE 0 END) AS int) AS expe, AVG(Precio) AS average, MAX(Fecha) AS max_date, Und_largo, Und, Descrip, Marca from materiales WHERE Descrip = '{}' AND ubigeo='{}' GROUP BY Descrip, Und".format(search_word, ubigeo)
+        cur.execute(query)
+        material = cur.fetchall()
+
+        OutputArray = []
+        for row in material:
+            outputObj = {
                 'und': row['Und'],
                 'und_largo': row['Und_largo'],
                 'average': soles(row['average']),
